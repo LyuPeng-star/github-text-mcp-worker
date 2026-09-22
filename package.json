@@ -1,0 +1,26 @@
+{
+  "name": "github-text-mcp-worker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Text-only MCP bridge for immutable GitHub file reads and atomic writes",
+  "scripts": {
+    "check": "tsc --noEmit",
+    "test": "node --test --experimental-strip-types test/service.test.ts test/write.test.ts test/synthetic-large-file.test.ts",
+    "test:all": "node --test --experimental-strip-types test/*.test.ts",
+    "test:acceptance": "node --test --experimental-strip-types test/acceptance.test.ts",
+    "bench:hashes": "node scripts/benchmark-hashes.mjs",
+    "deploy": "node scripts/deploy-clean.mjs",
+    "dev": "wrangler dev"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260830.1",
+    "@types/node": "^26.4.0",
+    "typescript": "^7.0.2",
+    "wrangler": "^4.127.1"
+  },
+  "license": "MIT"
+}

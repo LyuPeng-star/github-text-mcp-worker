@@ -1,0 +1,160 @@
+{
+  "schema_version": 2,
+  "task": "CORPUS-V1-001",
+  "baseline": {
+    "bytes": 12288,
+    "content_charset": "ASCII",
+    "newline": "LF",
+    "bom": false,
+    "line_shape": "short",
+    "path_charset": "ASCII",
+    "extension": ".txt"
+  },
+  "probes": [
+    {
+      "id": "P00",
+      "name": "P00_baseline.txt",
+      "dimension": "baseline",
+      "value": "ascii-lf-no-bom-short-ascii-name-txt",
+      "bytes": 12288
+    },
+    {
+      "id": "P01",
+      "name": "P01_size_512.txt",
+      "dimension": "size_bytes",
+      "value": 512,
+      "bytes": 512
+    },
+    {
+      "id": "P02",
+      "name": "P02_size_10240.txt",
+      "dimension": "size_bytes",
+      "value": 10240,
+      "bytes": 10240
+    },
+    {
+      "id": "P03",
+      "name": "P03_size_23552.txt",
+      "dimension": "size_bytes",
+      "value": 23552,
+      "bytes": 23552
+    },
+    {
+      "id": "P04",
+      "name": "P04_size_24576.txt",
+      "dimension": "size_bytes",
+      "value": 24576,
+      "bytes": 24576
+    },
+    {
+      "id": "P05",
+      "name": "P05_size_25600.txt",
+      "dimension": "size_bytes",
+      "value": 25600,
+      "bytes": 25600
+    },
+    {
+      "id": "P06",
+      "name": "P06_size_43008.txt",
+      "dimension": "size_bytes",
+      "value": 43008,
+      "bytes": 43008
+    },
+    {
+      "id": "P07",
+      "name": "P07_unicode_content.txt",
+      "dimension": "content_charset",
+      "value": "utf8-chinese",
+      "bytes": 12288,
+      "unicode": true
+    },
+    {
+      "id": "P08",
+      "name": "P08_crlf.txt",
+      "dimension": "newline",
+      "value": "CRLF",
+      "bytes": 12288,
+      "newline": "CRLF"
+    },
+    {
+      "id": "P09",
+      "name": "P09_bom.txt",
+      "dimension": "bom",
+      "value": "UTF-8-BOM",
+      "bytes": 12288,
+      "bom": true
+    },
+    {
+      "id": "P10",
+      "name": "P10_long_line.txt",
+      "dimension": "line_shape",
+      "value": "one-extreme-middle-line",
+      "bytes": 12288,
+      "long_line": true
+    },
+    {
+      "id": "P11",
+      "name": "P11_探针_é_nfc.txt",
+      "dimension": "path_unicode_form",
+      "value": "NFC-non-ASCII",
+      "bytes": 12288
+    },
+    {
+      "id": "P12",
+      "runtime": {
+        "filename_codepoints": [
+          80,
+          49,
+          50,
+          95,
+          25506,
+          38024,
+          95,
+          101,
+          769,
+          95,
+          110,
+          102,
+          100,
+          46,
+          116,
+          120,
+          116
+        ],
+        "content_format": "ascii-short-lines-v1"
+      },
+      "dimension": "path_unicode_form",
+      "value": "NFD-non-ASCII",
+      "bytes": 12288
+    },
+    {
+      "id": "P13",
+      "name": "P13_extension.md",
+      "dimension": "extension",
+      "value": ".md",
+      "bytes": 12288
+    },
+    {
+      "id": "P14",
+      "name": "P14_extension.yaml",
+      "dimension": "extension",
+      "value": ".yaml",
+      "bytes": 12288
+    },
+    {
+      "id": "P15",
+      "name": "P15_extension.py",
+      "dimension": "extension",
+      "value": ".py",
+      "bytes": 12288
+    },
+    {
+      "id": "P16",
+      "name": "P16_no_extension",
+      "dimension": "extension",
+      "value": "none",
+      "bytes": 12288
+    }
+  ],
+  "instrumentation_note": "Probe id in first/last fingerprint is measurement instrumentation; each controlled factor otherwise changes one declared dimension from baseline."
+}

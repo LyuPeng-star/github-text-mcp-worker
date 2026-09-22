@@ -1,0 +1,7 @@
+{
+  "kind": "deterministic synthetic fixtures",
+  "generator": "generate_probes.py",
+  "version": "synthetic-readpath-v1",
+  "external_repository_required": false,
+  "description": "Generated size, Unicode, newline, BOM, filename and extension probes contain no application data. Metadata and content hashes are calculated by the generator. P12 uses runtime codepoints to preserve an NFD path without storing a filesystem-sensitive checkout name."
+}

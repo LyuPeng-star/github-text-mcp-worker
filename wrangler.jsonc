@@ -1,0 +1,43 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "github-text-mcp-worker",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-08-30",
+  "workers_dev": true,
+  "preview_urls": false,
+  "vars": {
+    "SERVICE_VERSION": "0.1.0",
+    "PRIMARY_REPOSITORY": "example-owner/example-repository",
+    "SECONDARY_REPOSITORY": ""
+  },
+  "version_metadata": {
+    "binding": "WORKER_VERSION_METADATA"
+  },
+  "ratelimits": [
+    {
+      "name": "MCP_RATE_LIMITER_PRIMARY",
+      "namespace_id": "1001",
+      "simple": {
+        "limit": 60,
+        "period": 60
+      }
+    },
+    {
+      "name": "MCP_RATE_LIMITER_SECONDARY",
+      "namespace_id": "1002",
+      "simple": {
+        "limit": 60,
+        "period": 60
+      }
+    }
+  ],
+  "observability": {
+    "enabled": true,
+    "logs": {
+      "enabled": true
+    },
+    "traces": {
+      "enabled": false
+    }
+  }
+}

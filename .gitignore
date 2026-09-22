@@ -1,0 +1,11 @@
+node_modules/
+.wrangler/
+.dev.vars*
+.env*
+coverage/
+dist/
+*.log
+
+# Local operating-system metadata and private backup bundles
+.DS_Store
+*.bundle

@@ -1,0 +1,2 @@
+# Preserve the CRLF probe verbatim and do not flag its intentional CR-at-EOL.
+files/P08_crlf.txt -text whitespace=-trailing-space,cr-at-eol
