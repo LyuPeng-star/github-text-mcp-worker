@@ -5,8 +5,12 @@
   "compatibility_date": "2026-08-30",
   "workers_dev": true,
   "preview_urls": false,
+  "send_metrics": false,
+  "dependencies_instrumentation": {
+    "enabled": false
+  },
   "vars": {
-    "SERVICE_VERSION": "0.1.0",
+    "SERVICE_VERSION": "0.1.1",
     "PRIMARY_REPOSITORY": "example-owner/example-repository",
     "SECONDARY_REPOSITORY": ""
   },

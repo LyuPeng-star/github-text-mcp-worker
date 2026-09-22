@@ -439,7 +439,9 @@ export class GitHubClient {
     let pendingResponse: Promise<Response>;
     this.observation.markGitHubFetchAttempted();
     try {
-      pendingResponse = this.fetcher(`${API_ROOT}${apiPath}`, { ...init, headers });
+      // Keep credentials and operations at the explicitly bound GitHub endpoint.
+      // A redirect can change the repository, host, or method; never follow it.
+      pendingResponse = this.fetcher(`${API_ROOT}${apiPath}`, { ...init, headers, redirect: "manual" });
     } catch (error) {
       this.observation.markGitHubFetchOutcome("upstream_error");
       throw fetchInvocationFailure(error);
@@ -459,6 +461,14 @@ export class GitHubClient {
           ? "succeeded"
           : "upstream_error",
     );
+
+    if (response.status >= 300 && response.status < 400) {
+      throw new ServiceError(
+        "GITHUB_REDIRECT_REFUSED",
+        "GitHub returned a redirect; no redirected request was made. Verify the configured repository binding.",
+        502,
+      );
+    }
 
     let raw: string;
     try {

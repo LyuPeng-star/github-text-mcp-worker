@@ -84,6 +84,9 @@ pass(`HEAD ${sourceCommit}`);
 pass(`tag ${sourceTag}`);
 pass(`argv ${JSON.stringify(sanitizeWranglerArgv(wranglerArgs))}`);
 
-const wrangler = run("wrangler", wranglerArgs, { stdio: "inherit" });
+const wrangler = run("wrangler", wranglerArgs, {
+  stdio: "inherit",
+  env: { ...process.env, WRANGLER_SEND_METRICS: "false" },
+});
 if (wrangler.error) stop(`Wrangler could not start (${wrangler.error.name})`);
 process.exit(wrangler.status ?? 1);

@@ -5,7 +5,7 @@ import { ObservationContext, observationTextLines } from "./observation.ts";
 import { callTool, isKnownToolName, toolsListPayload } from "./service.ts";
 import type { Env, FetchLike, JsonRpcRequest, ToolResult } from "./types.ts";
 
-const FALLBACK_SERVICE_VERSION = "0.1.0";
+const FALLBACK_SERVICE_VERSION = "0.1.1";
 const PROTOCOL_VERSION = "2025-06-18";
 const SUPPORTED_PROTOCOL_VERSIONS = new Set(["2025-03-26", PROTOCOL_VERSION]);
 const DEFAULT_ALLOWED_ORIGINS = new Set([

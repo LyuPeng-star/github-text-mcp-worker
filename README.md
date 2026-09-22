@@ -81,7 +81,7 @@ npm run deploy
 
 `npm run deploy` requires a clean tracked and untracked working tree, obtains the actual 40-character `HEAD`, and injects `SOURCE_COMMIT` and a source tag. It supports local forks, other branch names, and detached `HEAD`; it does not require this repository's upstream remote.
 
-If you downloaded a source archive without `.git`, use `npx wrangler deploy` instead. The service still works, but `source_commit` is `unavailable` unless you supply a genuine source identity. Do not invent one. The [Wrangler configuration reference](https://developers.cloudflare.com/workers/wrangler/configuration/) covers account-specific deployment settings.
+If you downloaded a source archive without `.git`, use `WRANGLER_SEND_METRICS=false npx wrangler deploy` in a POSIX shell instead (or set the same environment variable in your shell). The service still works, but `source_commit` is `unavailable` unless you supply a genuine source identity. Do not invent one. The [Wrangler configuration reference](https://developers.cloudflare.com/workers/wrangler/configuration/) covers account-specific deployment settings.
 
 ### 4. Connect an MCP host
 

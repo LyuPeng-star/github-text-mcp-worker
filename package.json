@@ -1,6 +1,6 @@
 {
   "name": "github-text-mcp-worker",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "type": "module",
   "description": "Text-only MCP bridge for immutable GitHub file reads and atomic writes",
@@ -20,7 +20,7 @@
     "@cloudflare/workers-types": "^5.20260830.1",
     "@types/node": "^26.4.0",
     "typescript": "^7.0.2",
-    "wrangler": "^4.127.1"
+    "wrangler": "^4.136.2"
   },
   "license": "MIT"
 }

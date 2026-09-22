@@ -147,3 +147,5 @@ npx wrangler secret put GITHUB_TOKEN_SECONDARY
 更多参数、字节边界、回执与错误见[协议文档](docs/public/protocol.md)。测试验证实现与夹具行为，不构成线上可用率或任意客户端兼容保证。
 
 开发见 [CONTRIBUTING.md](CONTRIBUTING.md)，安全边界见 [SECURITY.md](SECURITY.md)。采用 [MIT License](LICENSE)。
+
+直接调用 Wrangler 时，如需关闭 CLI 可选遥测，可在当前 shell 设置 `WRANGLER_SEND_METRICS=false`；例如 POSIX shell 下使用 `WRANGLER_SEND_METRICS=false npx wrangler deploy`。本项目的 `npm run deploy` 和 CI 已设置该变量。这不关闭 Cloudflare 服务日志。

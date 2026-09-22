@@ -31,3 +31,11 @@ Do not post credentials, private repository contents, or a working exploit again
 If GitHub offers a **Report a vulnerability** action on this repository's Security page, use that private channel. Its availability depends on repository settings; this document does not claim private reporting is enabled. Otherwise, open a minimal issue requesting a private reporting channel without including sensitive details, and wait for a maintainer to provide one.
 
 Useful reports identify the affected commit, the relevant request/response shape with secrets removed, a reproduction using synthetic fixtures, and the expected security boundary. No response-time or support-lifetime guarantee is provided.
+
+## Dependency and outbound request checks
+
+CI runs an npm vulnerability audit at the high-severity threshold. Its checkout and Node setup actions are pinned to full commit IDs, and checkout does not persist the CI credential. Keep the lockfile updated when upstream fixes become available.
+
+GitHub API requests refuse HTTP redirects. If a repository is renamed or transferred, update its deployment binding instead of allowing an authenticated request to follow a different destination.
+
+The example configuration disables optional package-dependency instrumentation and sets `send_metrics: false`. The provided deployment script and CI also set `WRANGLER_SEND_METRICS=false`, because some CLI-level telemetry can start before project configuration is loaded. When invoking Wrangler directly, set that environment variable if you want the same opt-out. Worker invocation logs remain enabled; these settings do not disable Cloudflare service logs or change how the deployed service handles repository content.

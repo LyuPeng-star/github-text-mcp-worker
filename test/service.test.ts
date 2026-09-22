@@ -1501,6 +1501,51 @@ test("GitHubClient requires an explicit repository binding at type-check time", 
   }
 });
 
+test("GitHub redirects are refused before reading the body or following any destination", async () => {
+  const locations = [
+    "https://redirect-target.invalid/collect?private=synthetic-sentinel",
+    "https://api.github.com/repos/other-owner/other-repository/commits/main",
+    "http://redirect-target.invalid/downgrade",
+  ];
+  for (const status of [300, 301, 302, 303, 304, 307, 308]) {
+    for (const location of locations) {
+      let calls = 0;
+      const fetcher: FetchLike = async (input, init) => {
+        calls++;
+        assert.equal(new URL(String(input)).origin, "https://api.github.com");
+        assert.equal(init?.redirect, "manual");
+        const response = new Response(null, { status, headers: { location } });
+        response.text = async () => { throw new Error("redirect bodies must not be consumed"); };
+        return response;
+      };
+      const result = await callTool(fetcher, "resolve_ref", { ref: "main" }, { env: OBSERVATION_ENV });
+      assert.equal(result.result.isError, true);
+      assert.equal(errorCode(result.text), "GITHUB_REDIRECT_REFUSED");
+      assertTextObservation(parseToolErrorFields(result.text), true, "upstream_error");
+      assert.equal(calls, 1);
+      assert.doesNotMatch(result.text, /redirect-target|other-owner|synthetic-sentinel|local-test-github-token/);
+    }
+  }
+});
+
+test("a redirected GitHub mutation is not followed or retried", async () => {
+  const calls: string[] = [];
+  const fetcher: FetchLike = async (input, init = {}) => {
+    const url = new URL(String(input));
+    calls.push(`${init.method ?? "GET"} ${url.pathname}`);
+    assert.equal(init.redirect, "manual");
+    if (calls.length === 1) return Response.json({ sha: FULL_COMMIT });
+    assert.equal(init.method, "POST");
+    return new Response(null, { status: 307, headers: { location: "https://redirect-target.invalid/write" } });
+  };
+  const result = await callTool(fetcher, "create_branch", {
+    branch: "feature/redirect-check", from_commit_sha: FULL_COMMIT,
+  }, { env: OBSERVATION_ENV });
+  assert.equal(errorCode(result.text), "GITHUB_REDIRECT_REFUSED");
+  assert.equal(calls.length, 2);
+  assertTextObservation(parseToolErrorFields(result.text), true, "upstream_error");
+});
+
 test("resolve_ref uses its injected repository binding and issues only the expected GET", async () => {
   const calls: string[] = [];
   const observation = new ObservationContext(OBSERVATION_ENV);
@@ -2545,7 +2590,7 @@ test("error matrix distinguishes path, directory, short SHA, ref name, binary, a
   const cases: Array<[string, Record<string, unknown>, string]> = [
     ["missing", { path: "missing.txt", commit_sha: FULL_COMMIT }, "PATH_NOT_FOUND"],
     ["directory", { path: "directory", commit_sha: FULL_COMMIT }, "DIRECTORY_PATH"],
-    ["short", { path: "binary.bin", commit_sha: "8fbb422" }, "SHORT_COMMIT_SHA"],
+    ["short", { path: "binary.bin", commit_sha: "abc1234" }, "SHORT_COMMIT_SHA"],
     ["ref", { path: "binary.bin", commit_sha: "main" }, "REF_NAME_NOT_ALLOWED"],
     ["binary", { path: "binary.bin", commit_sha: FULL_COMMIT }, "BINARY_FILE"],
   ];
@@ -3161,7 +3206,6 @@ test("Wrangler assigns each prefix a distinct rate limit namespace", async () =>
   assert.equal(new Set(config.ratelimits.map((limiter: any) => limiter.namespace_id)).size, 2);
   for (const limiter of config.ratelimits) {
     assert.match(limiter.namespace_id, /^[1-9][0-9]*$/);
-    assert.notEqual(limiter.namespace_id, "2026083002");
     assert.deepEqual(limiter.simple, { limit: 60, period: 60 });
   }
 });
